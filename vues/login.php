@@ -1,5 +1,5 @@
 <form method='POST' action='?action=user-login' class="form-inline">
-    <h1>LOGIN</h1><br>
+    <h1>LOGIN</h1>&nbsp;
     <div class="input-group">
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">@</span>

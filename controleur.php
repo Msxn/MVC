@@ -9,7 +9,7 @@ define('PATHMDL',PATHROOT.DS.'models'.DS);
 require PATHMDL.'user.php';
 require PATHCTRL.'userController.php';
 
-$content = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
+$page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
 
 $action = filter_input(INPUT_GET,'action', FILTER_SANITIZE_STRING);
 
@@ -18,11 +18,15 @@ if(!is_null($action)){
     $controleur = $tabAction[0].'Controller';
     $method = $tabAction[1].'Action';
     $object = new $controleur();
-    $object->$method();
+    $resAction = $object->$method();
+    
+    if($resAction){
+        $page = $resAction;
+    }
 }
 
-if(is_null($content) /*|| !file_exists(PATHVIEW.$content.'.php')*/){
-    $content = 'accueil';
+if(is_null($page) || !file_exists(PATHVIEW.$page.'.php')){
+    $page = 'accueil';
 }
 
 include PATHVIEW.'page.php';
