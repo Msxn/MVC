@@ -2,6 +2,6 @@
 
 include PATHVIEW.'header.php';
 
-echo '<p>'.$content.'</p>';
+include PATHVIEW.$content.'.php';
 
 include PATHVIEW.'footer.php';
