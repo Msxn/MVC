@@ -1,12 +1,12 @@
 <?php
 class userController {
     function loginAction(){
-        $login =  filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $pwd =  filter_input(INPUT_POST, 'pwd', FILTER_SANITIZE_EMAIL);
+        $login =  filter_input(INPUT_POST, 'login', FILTER_SANITIZE_EMAIL);
+        $password =  filter_input(INPUT_POST, 'password', FILTER_SANITIZE_EMAIL);
         
         $objUser = new user();
         $objUser->setLogin($login);
-        $objUser->setPassword($pwd);
+        $objUser->setPassword($password);
         
         $resultCheck = $this->checkAction($objUser);
        
@@ -14,7 +14,7 @@ class userController {
             $_SESSION['msg'] = 'Vous êtes connecté';
             $_SESSION['typemsg'] = 'primary';
             $_SESSION['connected'] = true;
-            return 'welcome';
+            return 'articlelist';
         }
         $_SESSION['msg'] = 'Erreur de Login/Mot de Passe';
         $_SESSION['typemsg'] = 'danger';
@@ -23,8 +23,21 @@ class userController {
     }
     
     function checkAction(user $user){
-        return ($user->getPassword() == 'toto')? true : false;
-            
+        $oBdd = new dbController();
+        
+        $query = 'SELECT * FROM Users WHERE email = :login';
+        
+        $req = $oBdd->getBddlink()->prepare($query);
+        
+        $req->execute(array(
+                    'login'=>$user->getLogin()
+                ));
+        
+        $tabUser = $req->fetch(PDO::FETCH_ASSOC);
+        
+        //var_dump($tabUser); die();
+        
+        return (password_verify($user->getPassword(), $tabUser['pwd']))? true : false;
     }
     
     function logoutAction(){

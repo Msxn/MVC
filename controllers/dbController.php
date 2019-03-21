@@ -1,7 +1,7 @@
 <?php
 
 
-class dbController {
+class dbController extends configController{
     private $bddserver = '127.0.0.1';
     private $bddname = '';
     private $bdduser = 'root';
@@ -9,7 +9,11 @@ class dbController {
     private $bdddriver = '';
     private $bddlink;
     
-    function __construct($config){
+    function __construct(){
+        
+        parent::__construct();
+        
+        $config = parent::getConfigParameter('dbconfig');
         
         foreach($config as $key=>$value){
             $method = 'set'.ucfirst($key);
