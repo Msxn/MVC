@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controllers/userController.php</file>
+            <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/conf/parameters.yml</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/footer.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/models/user.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/flash.php</file>
@@ -17,6 +18,7 @@
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/page.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controleur.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/www/css/style.css</file>
+            <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controllers/dbController.php</file>
         </group>
     </open-files>
 </project-private>

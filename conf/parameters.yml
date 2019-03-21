@@ -1,0 +1,6 @@
+dbconfig:
+    bddserver: 127.0.0.1
+    bdddriver: mysql
+    bdduser: matthieu
+    bddpassword: admin
+    bddname: GSB

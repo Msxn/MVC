@@ -8,12 +8,15 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
+      <?php if(!isset($_SESSION['connected']) || $_SESSION['connected'] === false){ ?>
       <li class="nav-item">
         <a class="nav-link" href="?page=login">LogIn</a>
       </li>
+      <?php }else{ ?>
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="?action=user-logout">LogOut</a>
       </li>
+      <?php } ?>
       <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>

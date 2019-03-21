@@ -13,15 +13,23 @@ class userController {
         if($resultCheck){
             $_SESSION['msg'] = 'Vous êtes connecté';
             $_SESSION['typemsg'] = 'primary';
+            $_SESSION['connected'] = true;
             return 'welcome';
         }
         $_SESSION['msg'] = 'Erreur de Login/Mot de Passe';
         $_SESSION['typemsg'] = 'danger';
+        $_SESSION['connected'] = false;
         return $resultCheck;
     }
     
     function checkAction(user $user){
         return ($user->getPassword() == 'toto')? true : false;
             
+    }
+    
+    function logoutAction(){
+        $_SESSION['connected'] = false;
+        session_destroy();
+        return null;
     }
 }

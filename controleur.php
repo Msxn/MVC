@@ -5,9 +5,12 @@ define('DS',DIRECTORY_SEPARATOR);
 define('PATHVIEW',PATHROOT.DS.'vues'.DS);
 define('PATHCTRL',PATHROOT.DS.'controllers'.DS);
 define('PATHMDL',PATHROOT.DS.'models'.DS);
+$config = yaml_parse_file(PATHROOT.DS.'conf'.DS.'parameters.yml');
 
 require PATHMDL.'user.php';
 require PATHCTRL.'userController.php';
+require PATHCTRL.'dbController.php';
+$oBdd = new dbController($config['dbconfig']);
 
 $page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
 
