@@ -3,4 +3,4 @@ dbconfig:
     bdddriver: mysql
     bdduser: matthieu
     bddpassword: admin
-    bddname: Blog
+    bddname: MVC

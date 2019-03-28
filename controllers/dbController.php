@@ -31,6 +31,80 @@ class dbController extends configController{
         }
     }
     
+    function request(object $objet, array $options=array()){
+        try{ 
+        $table=get_class($objet); //récupère la classe de mon objet 
+        $champs= '*'; 
+        if(isset($options['champs']) && !empty($options)){ 
+            $champs = implode(',',$options['champs']); 
+        }
+        if(!isset($options['criteria'])){ 
+            throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
+        }
+        $query = 'SELECT ' .$champs.' FROM '.$table.' WHERE '; 
+        $nbCriteria = count(array_keys($options['criteria'])); 
+        $keys = array_keys($options['criteria']);
+        
+        for($i=0; $i<$nbCriteria; $i++){ 
+            if($i>0){ 
+                $query .= ' AND '; 
+            }
+            $query .= $keys[$i].' = :'.$keys[$i]; 
+        } 
+        $query .=' LIMIT 1';
+        $req = $this->bddlink->prepare($query); 
+        $req -> execute($options['criteria']);
+        $result = $req->fetch(PDO::FETCH_ASSOC); //fetch et pas fetch_all car un seul enregirstrement à récup 
+        return $result; 
+        }
+        
+        catch (Exception $ex){ 
+            echo $ex->getMessage(); 
+            return array();   
+        } 
+    }
+    
+    function requestById(object $objet, $id){
+        return $this->request($objet, 
+                array('criteria' => array(
+                    'id'=>$id
+                )
+            ));
+    }
+    
+    function insert(object $objet, array $options = array()){
+        try{
+            $table = get_class($objet);
+            $query = 'INSERT INTO '.$table.' (';
+            $nbcriteria = count(array_keys($options));
+            $keys = array_keys($options);
+            for($i = 0; $i<$nbcriteria; $i++){
+                $query .= $keys[$i];
+                if($i!=$nbcriteria-1){ 
+                    $query .= ', '; 
+                }
+            }
+            $query .= ') VALUES (';
+            for($i = 0; $i<$nbcriteria; $i++){
+                $query .= ':'.$keys[$i];
+                if($i!=$nbcriteria-1){ 
+                    $query .= ', '; 
+                }
+            }
+            $query .= ')';
+            //echo $query;
+            //var_dump($options['criteria']); var_dump($objet); 
+            //die();
+            //var_dump($this);
+            $req = $this->bddlink->prepare($query);
+            $req->execute($options); 
+            return array(true);
+        } catch (Exception $ex) {
+            echo $ex->getMessage(); 
+            return array();
+        }
+    }
+    
     function getBddserver() {
         return $this->bddserver;
     }

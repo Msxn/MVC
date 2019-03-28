@@ -1,4 +1,5 @@
 <?php
+/*
 $articlelist = mysqli_query($loginbdd, 'SELECT * FROM Article ORDER BY id desc');
 $fetch = mysqli_fetch_all($articlelist, MYSQLI_ASSOC);
 
@@ -31,3 +32,5 @@ $fetch = mysqli_fetch_all($articlelist, MYSQLI_ASSOC);
         </article>
     </div>
     <?php } ?>
+ 
+ */

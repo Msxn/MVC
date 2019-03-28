@@ -14,7 +14,25 @@
 class user {
     private $login;
     private $password;
+    private $id;
+    private $email;
     
+    function getEmail() {
+        return $this->email;
+    }
+
+    function setEmail($email) {
+        $this->email = $email;
+    }
+
+    function getId() {
+        return $this->id;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
     function getLogin() {
         return $this->login;
     }
