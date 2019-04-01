@@ -19,6 +19,9 @@
       <li class="nav-item">
         <a class="nav-link" href="?action=user-logout">LogOut</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="?action=user-edit">Update</a>
+      </li>
       <?php } ?>
       
     </ul>

@@ -15,8 +15,10 @@ class userController {
         if($resultCheck){
             $_SESSION['msg'] = 'Vous êtes connecté';
             $_SESSION['typemsg'] = 'primary';
+            $_SESSION['login'] = $objUser->getLogin();
+            $_SESSION['login'] = $objUser->getId();
             $_SESSION['connected'] = true;
-            return 'articlelist';
+            return array('view' => 'welcome');
         }
         $_SESSION['msg'] = 'Erreur de Login/Mot de Passe';
         $_SESSION['typemsg'] = 'danger';
@@ -50,7 +52,7 @@ class userController {
                 'criteria' => array(*/
                 'email' => $user->getEmail(),
                 'login' => $user->getLogin(),
-                'pwd' => $user->getPassword()
+                'password' => $user->getPassword()
             )
         );
         
@@ -59,22 +61,50 @@ class userController {
         }
     }
     
+    function updateAction(){
+        $login =  filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
+        $password = password_hash(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_ENCODED), PASSWORD_DEFAULT);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $oBdd = new dbController();
+        
+        $user = new user();
+        $user->setLogin($login);
+        $user->setEmail($email);
+        $user->setPassword($password);
+        $user->setId($_SESSION['id']);
+        
+        $tabUser = $oBdd->update($user,array(
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'login' => $user->getLogin(),
+                'password' => $user->getPassword()
+                ));
+        if(empty($tabUser)){
+            return 'welcome';
+        }else{
+            return 'accueil';
+        }
+    }
+    
     function checkAction(user $user){
         $oBdd = new dbController();
         
         //$tabUser = $oBdd->requestById($user, $user->getId());
         $tabUser = $oBdd->request($user,
-                array('champs'=>array(
-                            'pwd',
+                  array('champs'=>array(
+                            'password',
+                            'id'
                             ), 
                         'criteria'=>array( 
                             'email'=>$user->getLogin(), 
                             //'password'=>$user->getPassword(),
                             )
                     ) 
-                ); 
+                );
         if(empty($tabUser)){ 
             return false;
+        }else{
+            $_SESSION['id'] = $tabUser['id'];
         }
         
         
@@ -90,7 +120,16 @@ class userController {
         $tabUser = $req->fetch(PDO::FETCH_ASSOC);
         */
         //var_dump($tabUser); die();
-        return (password_verify($user->getPassword(), $tabUser['pwd']))? true : false;
+        return (password_verify($user->getPassword(), $tabUser['password']))? true : false;
+    }
+    
+    function editAction(){
+        $oBdd = new dbController;
+        $user = new user();
+        
+        $tabEdit = $oBdd->findObjectById($user, $_SESSION['id']);
+        //var_dump($tab); die();
+        return array('view' => 'update', 'user' => $user);
     }
     
     function logoutAction(){

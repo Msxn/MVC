@@ -74,6 +74,9 @@ class dbController extends configController{
     
     function insert(object $objet, array $options = array()){
         try{
+            if(!isset($options['criteria'])){ 
+                throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
+            }
             $table = get_class($objet);
             $query = 'INSERT INTO '.$table.' (';
             $nbcriteria = count(array_keys($options));
@@ -96,6 +99,46 @@ class dbController extends configController{
             //var_dump($options['criteria']); var_dump($objet); 
             //die();
             //var_dump($this);
+            $req = $this->bddlink->prepare($query);
+            $req->execute($options); 
+            return array(true);
+        } catch (Exception $ex) {
+            echo $ex->getMessage(); 
+            return array();
+        }
+    }
+    
+    function findObjectById(object $object, $id){
+        $datas = $this->requestById($object, $id);
+        $this->hydrateRecord($object, $datas);
+    }
+    
+    function hydrateRecord(object $object, array $datas){
+        foreach ($datas as $key=>$value){
+            $method = 'set'.ucfirst($key);
+            if(method_exists($object, $method)){
+                $object->$method($value);
+            }
+        }
+    }
+    
+    function update(object $objet, array $options = array()){
+        try {
+            if(!isset($options['criteria'])){ 
+                throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
+            }
+            $table = get_class($objet);
+            $query = 'UPDATE '.$table.' SET ';
+            $nbcriteria = count(array_keys($options));
+            $criteria = array_keys($options);
+            for($i = 0; $i < $nbcriteria; $i++){
+                $query .= $criteria[$i].' = :'.$criteria[$i];
+                if($i!=$nbcriteria-1){ 
+                    $query .= ', ';
+                }
+            }
+            $query .= ' WHERE '.$criteria[0].' = :'.$criteria[0];
+            //var_dump($query); die();
             $req = $this->bddlink->prepare($query);
             $req->execute($options); 
             return array(true);

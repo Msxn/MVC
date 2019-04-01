@@ -31,8 +31,8 @@ if(!is_null($action)){
     $object = new $controleur();
     $resAction = $object->$method();
     
-    if($resAction){
-        $page = $resAction;
+    if(is_array($resAction) && isset($resAction['view'])){
+        $page = $resAction['view'];
     }
 }
 
