@@ -3,7 +3,6 @@ class userController {
     function loginAction(){
         $login =  filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
         $password =  filter_input(INPUT_POST, 'password', FILTER_SANITIZE_ENCODED);
-        $id =  filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
         
         $objUser = new user();
         $objUser->setLogin($login);
@@ -13,10 +12,11 @@ class userController {
         $resultCheck = $this->checkAction($objUser);
        
         if($resultCheck){
-            $_SESSION['msg'] = 'Vous êtes connecté';
+            $_SESSION['msg'] = 'Vous êtes connecté ';
             $_SESSION['typemsg'] = 'primary';
             $_SESSION['login'] = $objUser->getLogin();
-            $_SESSION['login'] = $objUser->getId();
+            //$_SESSION['id'] = $objUser->getId();
+            //var_dump($_SESSION['id']); die();
             $_SESSION['connected'] = true;
             return array('view' => 'welcome');
         }
@@ -127,9 +127,24 @@ class userController {
         $oBdd = new dbController;
         $user = new user();
         
-        $tabEdit = $oBdd->findObjectById($user, $_SESSION['id']);
+        $oBdd->findObjectById($user, $_SESSION['id']);
         //var_dump($tab); die();
         return array('view' => 'update', 'user' => $user);
+    }
+    
+    function deleteAction(){
+        $oBdd = new dbController();
+        $user = new user();
+        $user->setId($_SESSION['id']);
+        
+        $tabDel = $oBdd->delete($user);//, array('id'=>$user->getId()));
+        
+        if($tabDel){
+            return 'accueil';
+        }
+        else{
+            return '404';
+        }
     }
     
     function logoutAction(){

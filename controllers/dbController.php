@@ -74,7 +74,7 @@ class dbController extends configController{
     
     function insert(object $objet, array $options = array()){
         try{
-            if(!isset($options['criteria'])){ 
+            if(!isset($options/*['criteria']*/)){ 
                 throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
             }
             $table = get_class($objet);
@@ -140,8 +140,36 @@ class dbController extends configController{
             $query .= ' WHERE '.$criteria[0].' = :'.$criteria[0];
             //var_dump($query); die();
             $req = $this->bddlink->prepare($query);
-            $req->execute($options); 
+            $req->execute($options);
             return array(true);
+        } catch (Exception $ex) {
+            echo $ex->getMessage(); 
+            return array();
+        }
+    }
+    
+    function delete(object $objet){
+        try{
+            if(!isset($objet)){ 
+                throw new Exception(__METHOD__.' '.__LINE__.': user doit être défini'); 
+            }
+            $table = get_class($objet);
+            $query = "DELETE FROM ".$table." WHERE id = :id";
+            //$count = count(array_keys($options));
+            //$criteria = array_keys($options);
+            /*for($i = 0; $i < $count; $i++){
+                if($i>0){ 
+                    $query .= ' AND '; 
+                }
+            }*/
+            //$query .= $criteria[$i].' = :'.$criteria[$i]; 
+            $options['id'] = $objet->getId();
+            //var_dump($options); var_dump($query); die();
+            $req = $this->bddlink->prepare($query);
+            $req->execute($options['id']);
+
+                return $req->rowCount();
+            
         } catch (Exception $ex) {
             echo $ex->getMessage(); 
             return array();
