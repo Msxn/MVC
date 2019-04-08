@@ -4,7 +4,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">@</span>
         </div>
-        <input class="form-control mr-sm-2" type='email' name='login' class='inputclass' placeholder="example@example.com">
+        <input class="form-control mr-sm-2" type='email' name='email' class='inputclass' placeholder="example@example.com">
     </div>
     <div class="input-group">
         <div class="input-group-prepend">

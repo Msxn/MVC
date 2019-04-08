@@ -52,9 +52,39 @@ class dbController extends configController{
             $query .= $keys[$i].' = :'.$keys[$i]; 
         } 
         $query .=' LIMIT 1';
+        //var_dump($query);die();
         $req = $this->bddlink->prepare($query); 
         $req -> execute($options['criteria']);
         $result = $req->fetch(PDO::FETCH_ASSOC); //fetch et pas fetch_all car un seul enregirstrement à récup 
+        return $result; 
+        }
+        
+        catch (Exception $ex){ 
+            echo $ex->getMessage(); 
+            return array();   
+        } 
+    }
+    
+    function requestAll(object $objet){
+        try{ 
+        $table=get_class($objet); //récupère la classe de mon objet 
+        if(!isset($objet)){ 
+            throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
+        }
+        $query = 'SELECT * FROM '.$table; 
+//        $nbCriteria = count(array_keys($options['criteria'])); 
+//        $keys = array_keys($options['criteria']);
+//        
+//        for($i=0; $i<$nbCriteria; $i++){ 
+//            if($i>0){ 
+//                $query .= ' AND '; 
+//            }
+//            $query .= $keys[$i].' = :'.$keys[$i]; 
+//        } 
+        //var_dump($query);die();
+        $req = $this->bddlink->prepare($query); 
+        $req -> execute();
+        $result = $req->fetchAll(PDO::FETCH_CLASS,$table); //fetch et pas fetch_all car un seul enregirstrement à récup 
         return $result; 
         }
         
@@ -98,7 +128,7 @@ class dbController extends configController{
             //echo $query;
             //var_dump($options['criteria']); var_dump($objet); 
             //die();
-            //var_dump($this);
+            //var_dump($query); die();
             $req = $this->bddlink->prepare($query);
             $req->execute($options); 
             return array(true);

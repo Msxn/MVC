@@ -1,11 +1,11 @@
 <?php
 class userController {
     function loginAction(){
-        $login =  filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
+        $email =  filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         $password =  filter_input(INPUT_POST, 'password', FILTER_SANITIZE_ENCODED);
         
         $objUser = new user();
-        $objUser->setLogin($login);
+        $objUser->setEmail($email);
         $objUser->setPassword($password);
         //$objUser->setId($id);
         
@@ -14,7 +14,9 @@ class userController {
         if($resultCheck){
             $_SESSION['msg'] = 'Vous êtes connecté ';
             $_SESSION['typemsg'] = 'primary';
-            $_SESSION['login'] = $objUser->getLogin();
+            $_SESSION['msgCount'] = 1;
+            //var_dump($resultCheck); die();
+            $_SESSION['login'] = $resultCheck['login'];
             //$_SESSION['id'] = $objUser->getId();
             //var_dump($_SESSION['id']); die();
             $_SESSION['connected'] = true;
@@ -22,6 +24,7 @@ class userController {
         }
         $_SESSION['msg'] = 'Erreur de Login/Mot de Passe';
         $_SESSION['typemsg'] = 'danger';
+        $_SESSION['msgCount'] = 1;
         $_SESSION['connected'] = false;
         return $resultCheck;
     }
@@ -46,7 +49,7 @@ class userController {
     
     function signAction(user $user){
         $oBdd = new dbController();
-        
+
         $tabUser = $oBdd->insert($user, array(/*
                 'champs' => array('pwd','login','email'),
                 'criteria' => array(*/
@@ -89,25 +92,27 @@ class userController {
     function checkAction(user $user){
         $oBdd = new dbController();
         
+        //var_dump($user->getPassword()); die();
         //$tabUser = $oBdd->requestById($user, $user->getId());
         $tabUser = $oBdd->request($user,
                   array('champs'=>array(
                             'password',
-                            'id'
+                            'id',
+                            'login'
                             ), 
                         'criteria'=>array( 
-                            'email'=>$user->getLogin(), 
+                            'email'=>$user->getEmail(), 
                             //'password'=>$user->getPassword(),
                             )
                     ) 
                 );
+        //var_dump($tabUser); die();
         if(empty($tabUser)){ 
             return false;
         }else{
             $_SESSION['id'] = $tabUser['id'];
+            return $tabUser;
         }
-        
-        
         /*
         $query = 'SELECT * FROM Users WHERE email = :login LIMIT 1';
         
@@ -119,7 +124,6 @@ class userController {
         
         $tabUser = $req->fetch(PDO::FETCH_ASSOC);
         */
-        //var_dump($tabUser); die();
         return (password_verify($user->getPassword(), $tabUser['password']))? true : false;
     }
     

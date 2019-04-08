@@ -23,6 +23,9 @@
         <a class="nav-link" href="?action=user-edit">Update</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="?page=createarticle">Create Article</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="?action=user-delete">Delete</a>
       </li>
       <?php } ?>

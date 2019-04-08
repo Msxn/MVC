@@ -13,17 +13,20 @@
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/404.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/www/index.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/.gitignore</file>
+            <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/createarticle.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/header.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/welcome.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/navbar.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/accueil.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/login.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controllers/configController.php</file>
+            <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controllers/articleController.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/page.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controleur.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/www/css/style.css</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/controllers/dbController.php</file>
             <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/vues/signin.php</file>
+            <file>file:/C:/Users/Matthieu/Documents/NetBeansProjects/MVC/models/article.php</file>
         </group>
     </open-files>
 </project-private>

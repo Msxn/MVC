@@ -24,6 +24,10 @@ spl_autoload_register('autoLoadController');
 $page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
 $action = filter_input(INPUT_GET,'action', FILTER_SANITIZE_STRING);
 
+if(is_null($action) && (is_null($page) || $page == 'accueil')){
+    $action='article-liste';
+}
+
 if(!is_null($action)){
     $tabAction = explode('-', $action);
     $controleur = $tabAction[0].'Controller';
@@ -35,6 +39,9 @@ if(!is_null($action)){
         $page = $resAction['view'];
     }
 }
+
+
+
 
 if(is_null($page) || !file_exists(PATHVIEW.$page.'.php')){
     $page = 'accueil';
