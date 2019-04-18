@@ -12,10 +12,29 @@
  * @author Matthieu
  */
 class article {
+    private $id;
     private $articlename;
     private $article;
     private $author;
+    private $file;
     private $date;
+    
+    function getFile() {
+        return $this->file;
+    }
+
+    function setFile($file) {
+        $this->file = $file;
+    }
+
+    function getId() {
+        return $this->id;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+  
     function getDate() {
         
         return $this->date;

@@ -5,6 +5,7 @@ define('DS',DIRECTORY_SEPARATOR);
 define('PATHVIEW',PATHROOT.DS.'vues'.DS);
 define('PATHCTRL',PATHROOT.DS.'controllers'.DS);
 define('PATHMDL',PATHROOT.DS.'models'.DS);
+define('PATHUPL', PATHROOT.DS.'www'.DS.'uploads'.DS);
 
 function autoLoadModel($modelName){
     if(file_exists(PATHMDL.$modelName.'.php')){
@@ -24,7 +25,7 @@ spl_autoload_register('autoLoadController');
 $page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
 $action = filter_input(INPUT_GET,'action', FILTER_SANITIZE_STRING);
 
-if(is_null($action) && (is_null($page) || $page == 'accueil')){
+if($page == 'accueil' && is_null($action)){
     $action='article-liste';
 }
 

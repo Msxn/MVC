@@ -85,6 +85,7 @@ class userController {
         if(empty($tabUser)){
             return 'welcome';
         }else{
+            $this->logoutAction();
             return 'accueil';
         }
     }
@@ -154,6 +155,6 @@ class userController {
     function logoutAction(){
         $_SESSION['connected'] = false;
         session_destroy();
-        return null;
+        header('Location:?action=article-liste');
     }
 }

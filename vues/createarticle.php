@@ -1,3 +1,4 @@
+<?php //var_dump($resArticle['acticles']); ?>
 <form action='?action=article-create' enctype="multipart/form-data" method='POST'>
     <div id='container-fluid' style="padding-left: 4%; padding-right: 4%;">
         <div class="row">&nbsp;</div>

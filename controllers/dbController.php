@@ -65,6 +65,40 @@ class dbController extends configController{
         } 
     }
     
+    function requestClass(object $objet, array $options=array()){
+        try{ 
+        $table=get_class($objet); //récupère la classe de mon objet 
+        $champs= '*'; 
+        if(isset($options['champs']) && !empty($options)){ 
+            $champs = implode(',',$options['champs']); 
+        }
+        if(!isset($options['criteria'])){ 
+            throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
+        }
+        $query = 'SELECT ' .$champs.' FROM '.$table.' WHERE '; 
+        $nbCriteria = count(array_keys($options['criteria'])); 
+        $keys = array_keys($options['criteria']);
+        
+        for($i=0; $i<$nbCriteria; $i++){ 
+            if($i>0){ 
+                $query .= ' AND '; 
+            }
+            $query .= $keys[$i].' = :'.$keys[$i]; 
+        } 
+        $query .=' LIMIT 1';
+        //var_dump($query);die();
+        $req = $this->bddlink->prepare($query); 
+        $req -> execute($options['criteria']);
+        $result = $req->fetch(PDO::FETCH_CLASS, $table); //fetch et pas fetch_all car un seul enregirstrement à récup 
+        return $result; 
+        }
+        
+        catch (Exception $ex){ 
+            echo $ex->getMessage(); 
+            return array();   
+        } 
+    }
+    
     function requestAll(object $objet){
         try{ 
         $table=get_class($objet); //récupère la classe de mon objet 
@@ -154,7 +188,7 @@ class dbController extends configController{
     
     function update(object $objet, array $options = array()){
         try {
-            if(!isset($options['criteria'])){ 
+            if(!isset($options)){ 
                 throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
             }
             $table = get_class($objet);
@@ -196,7 +230,7 @@ class dbController extends configController{
             $options['id'] = $objet->getId();
             //var_dump($options); var_dump($query); die();
             $req = $this->bddlink->prepare($query);
-            $req->execute($options['id']);
+            $req->execute($options);
 
                 return $req->rowCount();
             
